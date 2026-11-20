@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 4.3)
 project(dz)
-
 set(CMAKE_CXX_STANDARD 20)
-
-add_executable(dz trie.cpp)
+add_executable(dz main.cpp trie.cpp)

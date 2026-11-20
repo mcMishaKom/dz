@@ -1,52 +1,40 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include "trie.h"
 
-class Node {
-public:
-    bool is_end;
-    int count;
-    Node* children[26];
-    Node() : is_end(false), count(0) {
-        for (int i = 0; i < 26; ++i) children[i] = nullptr;
+Node::Node() : is_end(false), count(0) {
+    for (int i = 0; i < 26; ++i) children[i] = nullptr;
+}
+
+Trie::Trie() : root(new Node()) {}
+
+void Trie::insert(const string& w) {
+    if (w.empty()) throw "Empty string";
+    Node* c = root;
+    for (char x : w) {
+        int idx = x - 'a';
+        if (c->children[idx] == nullptr)
+            c->children[idx] = new Node();
+        c = c->children[idx];
     }
-};
+    c->is_end = true;
+    c->count++;
+}
 
-class Trie {
-private:
-    Node* root;
-    vector<string> a;
-    string cur;
-
-    void dfs(Node* v) {
-        if (v->is_end)
-            for (int i = 0; i < v->count; ++i)
-                a.push_back(cur);
-        for (int i = 0; i < 26; ++i) {
-            if (v->children[i] != nullptr) {
-                cur.push_back('a' + i);
-                dfs(v->children[i]);
-                cur.pop_back();
-            }
+void Trie::dfs(Node* v) {
+    if (v->is_end)
+        for (int i = 0; i < v->count; ++i)
+            a.push_back(cur);
+    for (int i = 0; i < 26; ++i) {
+        if (v->children[i] != nullptr) {
+            cur.push_back('a' + i);
+            dfs(v->children[i]);
+            cur.pop_back();
         }
     }
+}
 
-public:
-    Trie() : root(new Node()) {}
-
-    void insert(const string& w) {
-        Node* c = root;
-        for (char x : w) {
-            int idx = x - 'a';
-            if (c->children[idx] == nullptr)
-                c->children[idx] = new Node();
-            c = c->children[idx];
-        }
-        c->is_end = true;
-        c->count++;
-    }
-
-    void collect(vector<string>& res) {
-        dfs(root);
-        res = a;
-    }
-};
+void Trie::collect(vector<string>& res) {
+    a.clear();
+    cur.clear();
+    dfs(root);
+    res = a;
+}
