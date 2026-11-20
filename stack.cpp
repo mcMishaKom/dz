@@ -1,31 +1,25 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include "stack.h"
 
-class Stack {
-private:
-    vector<int> st;
-public:
-    void push(int val) {
-        st.push_back(val);
-    }
+void Stack::push(int val) {
+    st.push_back(val);
+}
 
-    int pop() {
-        if (st.empty()) return -1;
-        int v = st.back();
-        st.pop_back();
-        return v;
-    }
+int Stack::pop() {
+    if (st.empty()) throw "Stack is empty";
+    int v = st.back();
+    st.pop_back();
+    return v;
+}
 
-    int top() {
-        if (st.empty()) return -1;
-        return st.back();
-    }
+int Stack::top() {
+    if (st.empty()) throw "Stack is empty";
+    return st.back();
+}
 
-    bool empty() {
-        return st.empty();
-    }
+bool Stack::empty() {
+    return st.empty();
+}
 
-    int size() {
-        return st.size();
-    }
-};
+int Stack::size() {
+    return st.size();
+}
