@@ -2,19 +2,27 @@
 
 int main() {
     Stack s;
-    s.push(1);
-    s.push(2);
-    s.push(3);
+    int n, x; cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> x;
+        s.push(x);
+    }
 
-    cout << "top: " << s.top() << "\n";
-    cout << "size: " << s.size() << "\n";
+    Stack temp;
+    while (!s.empty()) {
+        int cur = s.pop();
+        while (!temp.empty() && temp.top() > cur) {
+            s.push(temp.pop());
+        }
+        temp.push(cur);
+    }
 
-    cout << s.pop() << " " << s.pop() << " " << s.pop() << "\n";
+    while (!temp.empty()) {
+        s.push(temp.pop());
+    }
 
-    try {
-        cout << s.pop() << "\n";
-    } catch (const char* msg) {
-        cout << msg << "\n";
+    while (!s.empty()) {
+        cout << s.pop() << " ";
     }
 
     return 0;
